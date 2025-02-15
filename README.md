@@ -1,6 +1,6 @@
 # Lista Duplamente Encadeada - Programa em C
 
-Este é um programa em C que implementa uma lista duplamente encadeada para armazenar informações sobre pessoas, como nome, sexo e salário. O programa permite a leitura desses dados a partir de um arquivo texto e oferece opções para exibir os dados da lista em ordem crescente ou decrescente.
+Este é um programa em C que implementa uma lista duplamente encadeada para armazenar informações sobre pessoas, como nome, sexo e salário. O programa permite a leitura desses dados a partir de um arquivo e oferece opções para exibir os dados da lista em ordem crescente ou decrescente.
 
 ## Funcionalidades
 
