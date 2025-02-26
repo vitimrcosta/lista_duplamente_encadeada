@@ -20,7 +20,7 @@ Pessoa* criarNo(char nome[], char sexo, float salario) {
         printf("Erro ao alocar memória.\n");
         exit(1);
     }
-    
+
     // Copia o nome para o nó
     strcpy(novoNo->nome, nome);
     
@@ -97,6 +97,56 @@ void exibirDecrescente(Pessoa* head) {
     printf("-----------------------------------------------------------------\n");
 }
 
+
+void gravarCrescente(Pessoa* head) {
+    FILE* arquivoSaida = fopen("SaidaCrescente.txt", "w"); // Abre o arquivo para escrita
+    if (arquivoSaida == NULL) {
+        printf("Erro ao abrir o arquivo de saída.\n");
+        return;
+    }
+
+    Pessoa* temp = head;
+    while (temp != NULL) {
+        fprintf(arquivoSaida, "-----------------------------------------------------------------\n");
+        fprintf(arquivoSaida, "Nome: %s\n", temp->nome);
+        fprintf(arquivoSaida, "Sexo: %c\n", temp->sexo);
+        fprintf(arquivoSaida, "Salario: %.2f\n", temp->salario);
+        temp = temp->prox;
+    }
+    fprintf(arquivoSaida, "-----------------------------------------------------------------\n");
+
+    fclose(arquivoSaida); // Fecha o arquivo após gravar
+    printf("\n==========================================================================\n");
+    printf("|  Dados gravados em ordem decrescente no arquivo 'SaidaCrescente.txt    |\n");
+    printf("==========================================================================\n");
+}
+
+void gravarDecrescente(Pessoa* head) {
+    FILE* arquivoSaida = fopen("SaidaDecrescente.txt", "w"); // Abre o arquivo para escrita
+    if (arquivoSaida == NULL) {
+        printf("Erro ao abrir o arquivo de saída.\n");
+        return;
+    }
+
+    Pessoa* temp = head;
+    while (temp->prox != NULL) {
+        temp = temp->prox;
+    }
+    while (temp != NULL) {
+        fprintf(arquivoSaida, "-----------------------------------------------------------------\n");
+        fprintf(arquivoSaida, "Nome: %s\n", temp->nome);
+        fprintf(arquivoSaida, "Sexo: %c\n", temp->sexo);
+        fprintf(arquivoSaida, "Salario: %.2f\n", temp->salario);
+        temp = temp->ant;
+    }
+    fprintf(arquivoSaida, "-----------------------------------------------------------------\n");
+
+    fclose(arquivoSaida); // Fecha o arquivo após gravar
+    printf("\n==========================================================================\n");
+    printf("|  Dados gravados em ordem decrescente no arquivo 'SaidaDecrescente.txt  |\n");
+    printf("==========================================================================\n");
+}
+
 // Função para ordenar a lista por nome (ordem crescente)
 void ordenarPorNome(Pessoa** head) {
     // Verifica se a lista está vazia ou tem apenas um nó
@@ -136,6 +186,20 @@ void ordenarPorNome(Pessoa** head) {
         }
         lptr = ptr1; // Marca o último nó ordenado
     } while (trocou); // Repete até que não haja mais trocas
+}
+
+void exibirMenu() {
+    printf("\n");
+    printf("=========================================\n");
+    printf("|           MENU PRINCIPAL              |\n");
+    printf("=========================================\n");
+    printf("| 1 - Mostrar dados em ordem crescente  |\n");
+    printf("| 2 - Mostrar dados em ordem decrescente|\n");
+    printf("| 3 - Gerar arquivo em ordem crescente  |\n");
+    printf("| 4 - Gerar arquivo em ordem decrescente|\n");
+    printf("| 0 - Sair                              |\n");
+    printf("=========================================\n");
+    printf("Escolha uma opcao: ");
 }
 
 int main() {
@@ -186,12 +250,7 @@ int main() {
 
     int opcao;
     do {
-        // Exibe o menu de opções
-        printf("\nMenu:\n");
-        printf("1 - Mostrar dados em ordem crescente\n");
-        printf("2 - Mostrar dados em ordem decrescente\n");
-        printf("0 - Sair\n");
-        printf("Escolha uma opcao: ");
+        exibirMenu(); // Exibe o menu atualizado
         scanf("%d", &opcao);
 
         // Executa a opção escolhida
@@ -202,12 +261,23 @@ int main() {
             case 2:
                 exibirDecrescente(head); // Exibe em ordem decrescente
                 break;
-            case 0:
-                printf("Saindo...\n"); // Sai do programa
+            case 3:
+                gravarCrescente(head); // Exibe em ordem decrescente
                 break;
+            case 4:
+                gravarDecrescente(head); // Exibe em ordem decrescente
+                break;
+            case 0:
+                printf("\n========================================\n");
+                printf("|           Saindo do programa...      |\n");
+                printf("========================================\n");
+                break;            
             default:
-                printf("Opcao invalida!\n"); // Opção inválida
+                printf("\n========================================\n");
+                printf("|    Opcao invalida! Tente novamente.  |\n");
+                printf("========================================\n");
         }
+        
     } while (opcao != 0); // Repete até que o usuário escolha sair
 
     // Libera a memória alocada para a lista
